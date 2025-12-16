@@ -2,6 +2,7 @@ package com.chatapp.backend.controllers;
 
 import com.chatapp.backend.dto.LoginRequest;
 import com.chatapp.backend.dto.SignupRequest;
+import com.chatapp.backend.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,15 +10,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest request) {
-        // response
-        return ResponseEntity.ok("{\"message\":\"Signup successful!\"}");
+        return ResponseEntity.ok(
+                "{\"message\":\"" + authService.signup(request) + "\"}");
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        // response
-        return ResponseEntity.ok("{\"message\":\"Login successful!\"}");
+        return ResponseEntity.ok(
+                "{\"message\":\"" + authService.login(request) + "\"}");
     }
 }
