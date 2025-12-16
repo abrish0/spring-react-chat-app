@@ -6,6 +6,7 @@ import com.chatapp.backend.model.User;
 import com.chatapp.backend.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.chatapp.backend.security.JwtUtil;
 
 import java.util.Optional;
 
@@ -14,9 +15,11 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final JwtUtil jwtUtil;
 
-    public AuthService(UserRepository userRepository) {
+    public AuthService(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     public String signup(SignupRequest request) {
@@ -54,6 +57,6 @@ public class AuthService {
             return "Invalid username or password";
         }
 
-        return "Login successful";
+        return jwtUtil.generateToken(user.getUsername());
     }
 }
