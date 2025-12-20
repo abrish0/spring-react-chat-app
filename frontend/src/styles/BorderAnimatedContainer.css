@@ -1,0 +1,46 @@
+.animated-border-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  padding: 2px;
+  overflow: hidden;
+  background: linear-gradient(45deg, #172033, #1e293b 50%, #172033);
+}
+
+.animated-border-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent,
+    rgba(34, 211, 238, 0.48),
+    rgb(6, 182, 212),
+    rgb(103, 232, 249),
+    rgb(6, 182, 212),
+    rgba(34, 211, 238, 0.48),
+    transparent
+  );
+  animation: border-rotate 4s linear infinite;
+  z-index: 0;
+}
+
+.animated-border-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.875rem;
+  background: #0f172a; 
+  z-index: 1;
+  overflow: hidden;
+}
+
+@keyframes border-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
