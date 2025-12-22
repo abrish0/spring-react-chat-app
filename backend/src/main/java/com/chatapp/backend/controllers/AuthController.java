@@ -6,6 +6,8 @@ import com.chatapp.backend.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -17,16 +19,14 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignupRequest request) {
-        return ResponseEntity.ok(
-                "{\"message\":\"" + authService.signup(request) + "\"}");
+    public ResponseEntity<Map<String, Object>> signup(@RequestBody SignupRequest request) {
+        Map<String, Object> response = authService.signup(request);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        String token = authService.login(request);
-        return ResponseEntity.ok(
-                "{\"token\":\"" + token + "\"}");
+    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequest request) {
+        Map<String, Object> response = authService.login(request);
+        return ResponseEntity.ok(response);
     }
-
 }

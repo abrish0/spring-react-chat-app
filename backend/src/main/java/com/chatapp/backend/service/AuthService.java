@@ -4,10 +4,12 @@ import com.chatapp.backend.dto.LoginRequest;
 import com.chatapp.backend.dto.SignupRequest;
 import com.chatapp.backend.model.User;
 import com.chatapp.backend.repository.UserRepository;
+import com.chatapp.backend.security.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.chatapp.backend.security.JwtUtil;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -22,13 +24,20 @@ public class AuthService {
         this.jwtUtil = jwtUtil;
     }
 
-    public String signup(SignupRequest request) {
+    // Signup method
+    public Map<String, Object> signup(SignupRequest request) {
+        Map<String, Object> response = new HashMap<>();
+
         if (userRepository.existsByUsername(request.getUsername())) {
-            return "Username already exists";
+            response.put("success", false);
+            response.put("message", "Username already exists");
+            return response;
         }
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            return "Email already exists";
+            response.put("success", false);
+            response.put("message", "Email already exists");
+            return response;
         }
 
         User user = new User();
@@ -37,26 +46,33 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         userRepository.save(user);
-        return "Signup successful";
+
+        response.put("success", true);
+        response.put("message", "Signup successful");
+        return response;
     }
 
-    public String login(LoginRequest request) {
+    // Login method
+    public Map<String, Object> login(LoginRequest request) {
+        Map<String, Object> response = new HashMap<>();
+
         Optional<User> userOpt = userRepository
                 .findAll()
                 .stream()
                 .filter(u -> u.getUsername().equals(request.getUsername()))
                 .findFirst();
 
-        if (userOpt.isEmpty()) {
-            return "Invalid username or password";
+        if (userOpt.isEmpty() || !passwordEncoder.matches(request.getPassword(), userOpt.get().getPassword())) {
+            response.put("success", false);
+            response.put("message", "Invalid username or password");
+            return response;
         }
 
-        User user = userOpt.get();
+        String token = jwtUtil.generateToken(userOpt.get().getUsername());
+        response.put("success", true);
+        response.put("message", "Login successful");
+        response.put("token", token);
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return "Invalid username or password";
-        }
-
-        return jwtUtil.generateToken(user.getUsername());
+        return response;
     }
 }
