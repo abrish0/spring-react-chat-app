@@ -1,22 +1,37 @@
 import BorderAnimatedContainer from "../components/BorderAnimatedContainer";
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { MessageCircleIcon, MailIcon, LockIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import "./../styles/login.css";
-
+import { login as loginApi } from "../api/auth";
+import { AuthContext } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 function LoginPage() {
     const [formData, setFormData] = useState({
-            fullName: "",
-            email: "",
-            password: "",
-        });
-    
-        const handleSubmit = (e) => {
-            e.preventDefault();
-            // UI ONLY – no functionality yet
-            console.log(formData);
-        };
+        username: "",
+        password: "",
+    });
+    const { login } = useContext(AuthContext);
+
+
+   async function handleSubmit(e) {
+       e.preventDefault();
+       try {
+           const response = await loginApi(formData);
+
+           if (response.success) {
+               login(response.token); // store JWT
+               toast.success(response.message);
+               window.location.href = "/home";
+           } else {
+               toast.error(response.message);
+           }
+       } catch (err) {
+           toast.error(err.response?.data?.message || "Login failed");
+       }
+   }
+
 
     return (
         <div className="login-container">
@@ -45,18 +60,18 @@ function LoginPage() {
                                     {/* EMAIL */}
                                     <div className="form-group">
                                         <label className="auth-input-label">
-                                            Email
+                                            Username
                                         </label>
                                         <div className="input-container">
                                             <MailIcon className="auth-input-icon" />
                                             <input
-                                                type="email"
+                                                type="text"
                                                 className="input"
-                                                placeholder="johndoe@gmail.com"
+                                                placeholder="john"
                                                 onChange={(e) =>
                                                     setFormData({
                                                         ...formData,
-                                                        email: e.target.value,
+                                                        username: e.target.value,
                                                     })
                                                 }
                                             />
