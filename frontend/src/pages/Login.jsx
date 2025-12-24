@@ -23,7 +23,7 @@ function LoginPage() {
            if (response.success) {
                login(response.token); // store JWT
                toast.success(response.message);
-               window.location.href = "/home";
+               window.location.href = "/";
            } else {
                toast.error(response.message);
            }
@@ -52,12 +52,12 @@ function LoginPage() {
                                     </p>
                                 </div>
 
-                                {/* FORM (STATIC) */}
+                                {/* FORM */}
                                 <form
                                     className="login-form"
                                     onSubmit={handleSubmit}
                                 >
-                                    {/* EMAIL */}
+                                    {/* USERNAME */}
                                     <div className="form-group">
                                         <label className="auth-input-label">
                                             Username
@@ -100,7 +100,7 @@ function LoginPage() {
                                         </div>
                                     </div>
 
-                                    {/* BUTTON (STATIC) */}
+                                    {/* BUTTON */}
                                     <button className="auth-btn" type="submit">
                                         Sign In
                                     </button>

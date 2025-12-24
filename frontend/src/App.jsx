@@ -14,7 +14,7 @@ export default function App() {
 
                 {/* Protected route */}
                 <Route
-                    path="/home"
+                    path="/"
                     element={
                         <ProtectedRoute>
                             <Home />
@@ -22,8 +22,7 @@ export default function App() {
                     }
                 />
 
-                {/* Optional: redirect root */}
-                <Route path="/" element={<LoginPage />} />
+                
             </Routes>
         </BrowserRouter>
     );

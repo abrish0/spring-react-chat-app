@@ -1,0 +1,70 @@
+/* Header */
+.app-header {
+    width: 100%;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    border-bottom: 1px solid rgba(34, 211, 238, 0.2);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Profile */
+.profile-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.avatar-circle {
+    width: 3.2rem;
+    height: 3.2rem;
+    background: linear-gradient(135deg, #0ea5e9, #22d3ee);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.avatar-initials {
+    color: white;
+    font-weight: 700;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-name {
+    color: #f1f5f9;
+    font-weight: 600;
+}
+
+.profile-email {
+    color: #94a3b8;
+    font-size: 0.85rem;
+}
+
+/* Logout */
+.logout-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 0.6rem;
+    color: #fecaca;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background: rgba(239, 68, 68, 0.25);
+}

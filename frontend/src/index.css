@@ -20,6 +20,9 @@ body {
 }
 
 #root {
-  width: 100%;
-  height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background-color: #0f172a; 
 }

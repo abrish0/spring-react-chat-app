@@ -24,7 +24,7 @@ function SignUpPage() {
 
             if (response.success) {
                 toast.success(response.message);
-                navigate("/");
+                navigate("/login");
             } else {
                 toast.error(response.message);
             }
@@ -58,7 +58,7 @@ function SignUpPage() {
                                         onSubmit={handleSubmit}
                                         className="signup-form"
                                     >
-                                        {/* FULL NAME */}
+                                        {/* USERNAME */}
                                         <div className="form-group">
                                             <label className="auth-input-label">
                                                 Full Name
@@ -138,7 +138,7 @@ function SignUpPage() {
 
                                     {/* FOOTER */}
                                     <div className="signup-footer">
-                                        <Link to="/" className="auth-link">
+                                        <Link to="/login" className="auth-link">
                                             Already have an account? Login
                                         </Link>
                                     </div>
