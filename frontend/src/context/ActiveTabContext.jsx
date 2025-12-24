@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-const ActiveTabContext = createContext(null);
+export const ActiveTabContext = createContext(null);
 
 export function ActiveTabProvider({ children }) {
     const [activeTab, setActiveTab] = useState("chats"); // default
