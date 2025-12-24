@@ -2,14 +2,28 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/Login";
 import SignupPage from "./pages/Signup";
 import Home from "./pages/Home";
+import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<LoginPage />} />
+                {/* Public routes */}
+                <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignupPage />} />
-                <Route path="/home" element={<Home />} />
+
+                {/* Protected route */}
+                <Route
+                    path="/home"
+                    element={
+                        <ProtectedRoute>
+                            <Home />
+                        </ProtectedRoute>
+                    }
+                />
+
+                {/* Optional: redirect root */}
+                <Route path="/" element={<LoginPage />} />
             </Routes>
         </BrowserRouter>
     );

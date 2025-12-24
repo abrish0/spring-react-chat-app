@@ -1,21 +1,37 @@
 import { useState } from "react";
 import BorderAnimatedContainer from "../components/BorderAnimatedContainer";
 import { MessageCircleIcon, LockIcon, MailIcon, UserIcon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import "./../styles/signup.css";
+import {signup as signupApi} from './../api/auth'
+import toast from "react-hot-toast";
+
 
 function SignUpPage() {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
-        fullName: "",
+        username: "",
         email: "",
         password: "",
     });
 
-    const handleSubmit = (e) => {
+    async function handleSubmit(e) {
         e.preventDefault();
-        // UI ONLY – no functionality yet
-        console.log(formData);
-    };
+
+        try {
+            const response = await signupApi(formData);
+
+            if (response.success) {
+                toast.success(response.message);
+                navigate("/");
+            } else {
+                toast.error(response.message);
+            }
+        } catch (err) {
+            toast.error("Signup failed");
+        }
+    }
 
     return (
         <div className="signup-container">
@@ -57,7 +73,7 @@ function SignUpPage() {
                                                     onChange={(e) =>
                                                         setFormData({
                                                             ...formData,
-                                                            fullName:
+                                                            username:
                                                                 e.target.value,
                                                         })
                                                     }
