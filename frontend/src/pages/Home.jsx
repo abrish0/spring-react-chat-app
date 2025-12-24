@@ -1,6 +1,7 @@
 import BorderAnimatedContainer from "../components/BorderAnimatedContainer";
 import Header from "../components/Header";
 import NoConversationPlaceholder from "../components/NoConversationPlaceholder";
+import ActiveTabSwitch from "../components/ActiveTabSwitch";
 import "./../styles/home.css";
 
 function ChatPage() {
@@ -13,6 +14,7 @@ function ChatPage() {
                         <Header />
                         <div className="chat-sidebar-content">
                             {/*chat-vs-contact toggle*/}
+                            <ActiveTabSwitch/>
                             <div className="chat-sidebar-list">
                                 {/* Will contain ChatList or ContactList components */}
                             </div>
