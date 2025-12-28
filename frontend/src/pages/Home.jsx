@@ -6,10 +6,11 @@ import ActiveTabSwitch from "../components/ActiveTabSwitch";
 import "./../styles/home.css";
 import { ActiveTabContext } from "./../context/ActiveTabContext";
 import ChatsList from "../components/ChatList";
+import ContactList from "../components/ContactList";
 
 function ChatPage() {
-        const { activeTab } = useContext(ActiveTabContext);
-    
+    const { activeTab } = useContext(ActiveTabContext);
+
     return (
         <div className="chat-page">
             <BorderAnimatedContainer>
@@ -17,15 +18,14 @@ function ChatPage() {
                     {/* LEFT SIDE */}
                     <div className="chat-sidebar">
                         <Header />
+                        {/*chat-vs-contact toggle*/}
+                        <ActiveTabSwitch />
                         <div className="chat-sidebar-content">
-                            {/*chat-vs-contact toggle*/}
-                            <ActiveTabSwitch />
                             <div className="chat-sidebar-list">
-                                {/* Will contain ChatList or ContactList components */}
                                 {activeTab === "chats" ? (
                                     <ChatsList />
                                 ) : (
-                                    <div></div>
+                                    <ContactList />
                                 )}
                             </div>
                         </div>
