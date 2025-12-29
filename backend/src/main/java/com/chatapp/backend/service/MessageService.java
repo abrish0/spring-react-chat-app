@@ -39,6 +39,7 @@ public class MessageService {
                 .sender(sender)
                 .chat(chat)
                 .timestamp(LocalDateTime.now())
+                .seenAt(null)
                 .build();
 
         messageRepository.save(message);
@@ -47,7 +48,8 @@ public class MessageService {
                 message.getId(),
                 message.getContent(),
                 sender.getUsername(),
-                message.getTimestamp());
+                message.getTimestamp(),
+                message.getSeenAt());
     }
 
     public List<MessageResponse> getMessages(Long chatId, String username) {
@@ -61,13 +63,30 @@ public class MessageService {
             throw new RuntimeException("Not authorized");
         }
 
-        return messageRepository.findByChatOrderByTimestampAsc(chat)
-                .stream()
+        // Load messages and mark all messages from the OTHER user as seen
+        var messages = messageRepository.findByChatOrderByTimestampAsc(chat);
+
+        boolean updated = false;
+        LocalDateTime now = LocalDateTime.now();
+
+        for (Message m : messages) {
+            if (!m.getSender().getId().equals(user.getId()) && m.getSeenAt() == null) {
+                m.setSeenAt(now);
+                updated = true;
+            }
+        }
+
+        if (updated) {
+            messageRepository.saveAll(messages);
+        }
+
+        return messages.stream()
                 .map(m -> new MessageResponse(
                         m.getId(),
                         m.getContent(),
                         m.getSender().getUsername(),
-                        m.getTimestamp()))
+                        m.getTimestamp(),
+                        m.getSeenAt()))
                 .toList();
     }
 }

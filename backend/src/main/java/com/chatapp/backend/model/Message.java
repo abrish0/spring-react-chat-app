@@ -27,4 +27,7 @@ public class Message {
     private Chat chat;
 
     private LocalDateTime timestamp;
+
+    // When the receiver has seen this message
+    private LocalDateTime seenAt;
 }

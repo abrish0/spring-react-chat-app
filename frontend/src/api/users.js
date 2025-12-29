@@ -19,3 +19,9 @@ export async function getAllUsers(){
         return error.response?.data || error.message;
     }
 };
+
+// Get a user by username (for lastSeen / status)
+export async function getUserByUsername(username){
+    const response = await axiosInstance.get(`/users/${username}`);
+    return response.data;
+}

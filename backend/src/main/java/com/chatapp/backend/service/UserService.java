@@ -53,11 +53,18 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public UserResponse getByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return mapToResponse(user);
+    }
+
     private UserResponse mapToResponse(User user) {
         return new UserResponse(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
-                user.getCreatedAt());
+                user.getCreatedAt(),
+                user.getLastSeen());
     }
 }

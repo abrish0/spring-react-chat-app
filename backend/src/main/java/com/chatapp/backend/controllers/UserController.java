@@ -26,4 +26,9 @@ public class UserController {
         String username = authentication.getName();
         return userService.getAllExcept(username);
     }
+
+    @GetMapping("/{username}")
+    public UserResponse getUserByUsername(@PathVariable String username) {
+        return userService.getByUsername(username);
+    }
 }

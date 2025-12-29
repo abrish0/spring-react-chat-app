@@ -24,4 +24,8 @@ public class Chat {
     private User user2;
 
     private LocalDateTime createdAt;
+
+    // Simple typing indicator timestamps; if in the future, user is considered typing
+    private LocalDateTime user1TypingUntil;
+    private LocalDateTime user2TypingUntil;
 }

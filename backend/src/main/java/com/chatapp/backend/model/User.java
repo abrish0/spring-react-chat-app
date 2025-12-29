@@ -22,9 +22,13 @@ public class User {
 
     private LocalDateTime createdAt;
 
+    // Last time the user was active (any authenticated request)
+    private LocalDateTime lastSeen;
+
     @PrePersist
     public void onCreate() {
         this.createdAt = LocalDateTime.now();
+        this.lastSeen = LocalDateTime.now();
     }
 
     // getters & setters
@@ -58,5 +62,13 @@ public class User {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public LocalDateTime getLastSeen() {
+        return lastSeen;
+    }
+
+    public void setLastSeen(LocalDateTime lastSeen) {
+        this.lastSeen = lastSeen;
     }
 }

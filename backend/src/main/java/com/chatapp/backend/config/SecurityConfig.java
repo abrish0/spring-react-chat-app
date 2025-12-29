@@ -1,6 +1,7 @@
 package com.chatapp.backend.config;
 
 import com.chatapp.backend.security.JwtAuthFilter;
+import com.chatapp.backend.security.UserActivityFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,9 +12,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
+    private final UserActivityFilter userActivityFilter;
 
-    public SecurityConfig(JwtAuthFilter jwtAuthFilter) {
+    public SecurityConfig(JwtAuthFilter jwtAuthFilter, UserActivityFilter userActivityFilter) {
         this.jwtAuthFilter = jwtAuthFilter;
+        this.userActivityFilter = userActivityFilter;
     }
 
     @Bean
@@ -26,7 +29,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(userActivityFilter, JwtAuthFilter.class);
 
         return http.build();
     }

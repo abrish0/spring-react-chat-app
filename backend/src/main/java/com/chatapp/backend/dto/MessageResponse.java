@@ -12,4 +12,5 @@ public class MessageResponse {
     private String content;
     private String sender;
     private LocalDateTime timestamp;
+    private LocalDateTime seenAt;
 }

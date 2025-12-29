@@ -1,6 +1,7 @@
 package com.chatapp.backend.service;
 
 import com.chatapp.backend.dto.ChatResponse;
+import com.chatapp.backend.dto.TypingStatusResponse;
 import com.chatapp.backend.model.Chat;
 import com.chatapp.backend.model.User;
 import com.chatapp.backend.repository.ChatRepository;
@@ -41,6 +42,50 @@ public class ChatService {
                 User user = userRepository.findByUsername(username)
                                 .orElseThrow(() -> new RuntimeException("User not found"));
                 return chatRepository.findByUser1OrUser2(user, user);
+        }
+
+        public void setTypingStatus(Long chatId, String username, boolean typing) {
+                Chat chat = chatRepository.findById(chatId)
+                                .orElseThrow(() -> new RuntimeException("Chat not found"));
+
+                User user = userRepository.findByUsername(username)
+                                .orElseThrow(() -> new RuntimeException("User not found"));
+
+                var now = LocalDateTime.now();
+                var until = typing ? now.plusSeconds(3) : null;
+
+                if (chat.getUser1().getId().equals(user.getId())) {
+                        chat.setUser1TypingUntil(until);
+                } else if (chat.getUser2().getId().equals(user.getId())) {
+                        chat.setUser2TypingUntil(until);
+                } else {
+                        throw new RuntimeException("Not authorized");
+                }
+
+                chatRepository.save(chat);
+        }
+
+        public TypingStatusResponse getTypingStatus(Long chatId, String username) {
+                Chat chat = chatRepository.findById(chatId)
+                                .orElseThrow(() -> new RuntimeException("Chat not found"));
+
+                User user = userRepository.findByUsername(username)
+                                .orElseThrow(() -> new RuntimeException("User not found"));
+
+                var now = LocalDateTime.now();
+                boolean otherTyping;
+
+                if (chat.getUser1().getId().equals(user.getId())) {
+                        otherTyping = chat.getUser2TypingUntil() != null
+                                        && chat.getUser2TypingUntil().isAfter(now);
+                } else if (chat.getUser2().getId().equals(user.getId())) {
+                        otherTyping = chat.getUser1TypingUntil() != null
+                                        && chat.getUser1TypingUntil().isAfter(now);
+                } else {
+                        throw new RuntimeException("Not authorized");
+                }
+
+                return new TypingStatusResponse(otherTyping);
         }
 
         public ChatResponse mapToResponse(Chat chat) {
