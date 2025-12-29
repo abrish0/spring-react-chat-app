@@ -12,8 +12,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <AuthProvider>
             <ActiveTabProvider>
                 <ChatProvider>
-                    <App />
-                    <Toaster position="top-center" />
+                <App />
+                <Toaster position="top-center" />
                 </ChatProvider>
             </ActiveTabProvider>
         </AuthProvider>

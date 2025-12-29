@@ -62,7 +62,7 @@ function ContactList() {
         <>
             {allContacts.map((contact) => (
                 <div
-                    key={contact._id}
+                    key={contact.id || contact._id || contact.username}
                     className="contact-item"
                     onClick={() => handleContactClick(contact)}
                 >

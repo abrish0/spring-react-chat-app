@@ -66,7 +66,8 @@ function ChatWindow() {
             id: Date.now(),
             content,
             sender: user.username,
-            createdAt: new Date().toISOString(),
+            // Match backend field name `timestamp` (MessageResponse.timestamp)
+            timestamp: new Date().toISOString(),
         };
         setMessages((prev) => [...prev, tempMessage]);
         setMessageInput("");
@@ -130,10 +131,12 @@ function ChatWindow() {
                                 <div className="message-content">
                                     <p className="message-text">{message.content}</p>
                                     <span className="message-time">
-                                        {new Date(message.createdAt).toLocaleTimeString([], {
-                                            hour: "2-digit",
-                                            minute: "2-digit",
-                                        })}
+                                        {message.timestamp
+                                            ? new Date(message.timestamp).toLocaleTimeString([], {
+                                                hour: "2-digit",
+                                                minute: "2-digit",
+                                            })
+                                            : ""}
                                     </span>
                                 </div>
                             </div>
