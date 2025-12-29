@@ -5,13 +5,16 @@ import "./index.css";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 import { ActiveTabProvider } from "./context/ActiveTabContext";
+import { ChatProvider } from "./context/ChatContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
         <AuthProvider>
             <ActiveTabProvider>
-                <App />
-                <Toaster position="top-center" />
+                <ChatProvider>
+                    <App />
+                    <Toaster position="top-center" />
+                </ChatProvider>
             </ActiveTabProvider>
         </AuthProvider>
     </React.StrictMode>

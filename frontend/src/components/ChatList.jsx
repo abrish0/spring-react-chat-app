@@ -2,12 +2,14 @@ import { useEffect, useState, useContext } from "react";
 import { getChats } from "../api/chats";
 import NoChatsFound from "./NoChatsFound";
 import { AuthContext } from "../context/AuthContext";
+import { useChat } from "../context/ChatContext";
 import "./../styles/ChatsList.css";
 
 function ChatsList() {
     const [chats, setChats] = useState([]);
 
     const { user } = useContext(AuthContext);
+    const { selectedChat, setSelectedChat, setOtherUser } = useChat();
 
     useEffect(() => {
         const fetchChats = async () => {
@@ -22,6 +24,17 @@ function ChatsList() {
         fetchChats();
     }, []);
 
+    const handleChatClick = (chat, e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        // determine the other user
+        const otherUser =
+            chat.user1 === user.username ? chat.user2 : chat.user1;
+        
+        setSelectedChat(chat);
+        setOtherUser(otherUser);
+    };
+
     if (!chats.length) return <NoChatsFound />;
 
     return (
@@ -30,9 +43,17 @@ function ChatsList() {
                 // determine the other user
                 const otherUser =
                     chat.user1 === user.username ? chat.user2 : chat.user1;
+                
+                const chatId = chat.id || chat._id;
+                const selectedChatId = selectedChat?.id || selectedChat?._id;
+                const isActive = chatId === selectedChatId;
 
                 return (
-                    <div key={chat.id} className="chat-item">
+                    <div 
+                        key={chatId} 
+                        className={`chat-item ${isActive ? "active" : ""}`}
+                        onClick={(e) => handleChatClick(chat, e)}
+                    >
                         <div className="chat-item-content">
                             <div className="avatar-image-wrapper">
                                 <img

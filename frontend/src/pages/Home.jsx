@@ -3,13 +3,16 @@ import BorderAnimatedContainer from "../components/BorderAnimatedContainer";
 import Header from "../components/Header";
 import NoConversationPlaceholder from "../components/NoConversationPlaceholder";
 import ActiveTabSwitch from "../components/ActiveTabSwitch";
+import ChatWindow from "../components/ChatWindow";
 import "./../styles/home.css";
 import { ActiveTabContext } from "./../context/ActiveTabContext";
+import { useChat } from "../context/ChatContext";
 import ChatsList from "../components/ChatList";
 import ContactList from "../components/ContactList";
 
 function ChatPage() {
     const { activeTab } = useContext(ActiveTabContext);
+    const { selectedChat } = useChat();
 
     return (
         <div className="chat-page">
@@ -33,7 +36,7 @@ function ChatPage() {
 
                     {/* RIGHT SIDE */}
                     <div className="chat-main">
-                        <NoConversationPlaceholder />
+                        {selectedChat ? <ChatWindow /> : <NoConversationPlaceholder />}
                     </div>
                 </div>
             </BorderAnimatedContainer>

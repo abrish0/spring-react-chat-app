@@ -4,10 +4,17 @@
     border-radius: 0.5rem;
     cursor: pointer;
     margin-bottom: 0.5rem;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .chat-item:hover {
     background: rgba(6, 182, 212, 0.15);
+    transform: translateX(4px);
+}
+
+.chat-item.active {
+    background: rgba(6, 182, 212, 0.25);
+    border: 1px solid rgba(34, 211, 238, 0.4);
 }
 
 .chat-item-content {
