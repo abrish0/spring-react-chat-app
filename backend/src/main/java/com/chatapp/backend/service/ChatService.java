@@ -24,8 +24,9 @@ public class ChatService {
                 User user2 = userRepository.findByUsername(username2)
                                 .orElseThrow(() -> new RuntimeException("User2 not found"));
 
-                // Check if chat already exists
+                // Check if chat already exists for this pair (in any order)
                 return chatRepository.findByUser1AndUser2(user1, user2)
+                                .or(() -> chatRepository.findByUser1AndUser2(user2, user1))
                                 .orElseGet(() -> {
                                         Chat chat = Chat.builder()
                                                         .user1(user1)
